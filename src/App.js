@@ -1,16 +1,31 @@
 import './App.css';
-//Importing Components
-import CategoryList from './components/CategoryList';
-import CollectionList from './components/CollectionList';
-import NavBar from './components/NavBar';
+
+import { NavBar, CollectionList, CategoryList, ItemList } from './components';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <NavBar />
-      <CategoryList />
-      <CollectionList />
-    </div>
+    <Router>
+      <div className="App">
+        <NavBar />
+        <Routes>
+          <Route
+            exact
+            path="/"
+            element={
+              <>
+                <CategoryList />
+                <CollectionList />
+              </>
+            }
+          ></Route>
+          <Route exact path="/collection/:collectionId" element={<ItemList />}></Route>
+          <Route exact path="/category/:categoryId" element={<ItemList />}></Route>
+          <Route exact path="/item/:itemId"></Route>
+          <Route exact path="/cart"></Route>
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

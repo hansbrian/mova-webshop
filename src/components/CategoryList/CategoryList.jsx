@@ -1,5 +1,9 @@
 import React from 'react';
-
+import Box from '@mui/material/Box';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
 const categories = [
   {
     displayName: 'Dresses',
@@ -41,12 +45,18 @@ const categories = [
 const CategoryList = () => {
   return (
     <div>
-      <h1>Categories</h1>
-      <ul>
-        {categories.map((category) => (
-          <li key={category.categoryId}>{category.displayName}</li>
-        ))}
-      </ul>
+      <h1>Categories:</h1>
+      <Box sx={{ width: '100%', maxWidth: 500, bgcolor: 'background.paper' }}>
+        <List>
+          {categories.map((category) => (
+            <ListItem key={category.categoryId}>
+              <ListItemButton component="a" href={'/category/' + category.categoryId}>
+                <ListItemText primary={category.displayName} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Box>
     </div>
   );
 };

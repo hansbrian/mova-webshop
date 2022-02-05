@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Badge from '@mui/material/Badge';
 import ShoppingCart from '@mui/icons-material/ShoppingCart';
 
-const pages = ['Cart'];
+const pages = [{ display: 'Cart', route: 'cart' }];
 
 const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -68,8 +68,8 @@ const NavBar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem key={page.route} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page.display}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -85,16 +85,17 @@ const NavBar = () => {
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
-                key={page}
+                key={page.route}
+                href={'/' + page.route}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page === 'Cart' && (
+                {page.display}
+                {page.route === 'cart' && (
                   <Badge badgeContent={2}>
                     <ShoppingCart />
                   </Badge>
                 )}
-                {page}
               </Button>
             ))}
           </Box>

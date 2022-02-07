@@ -1,65 +1,45 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import { Divider } from '@mui/material';
-import { Container, Typography } from '@mui/material';
-const categories = [
-  {
-    displayName: 'Dresses',
-    parentId: 'ladies',
-    categoryId: 'dresses',
-  },
-  {
-    displayName: 'Bottoms',
-    parentId: 'men',
-    categoryId: 'bottoms',
-  },
-  {
-    displayName: 'Men',
-    parentId: 'root',
-    categoryId: 'men',
-  },
-  {
-    displayName: 'Shoes',
-    parentId: 'men',
-    categoryId: 'shoes',
-  },
-  {
-    displayName: 'Hoodies',
-    parentId: 'mens',
-    categoryId: 'hoodies',
-  },
-  {
-    displayName: 'Shorts',
-    parentId: 'bottoms',
-    categoryId: 'shorts',
-  },
-  {
-    displayName: 'Ladies',
-    parentId: 'root',
-    categoryId: 'ladies',
-  },
-];
+import React, { useEffect } from 'react';
+import {
+  Box,
+  Container,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Typography,
+  Divider,
+} from '@mui/material';
+import { setCategories } from '../../actions/categoryActions';
+import { setCollections } from '../../actions/collectionActions';
+import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 
-const collections = [
-  {
-    collectionId: 'winter2020',
-    displayName: 'Winter 2020',
-  },
-  {
-    collectionId: 'sports',
-    displayName: 'Extreme Sports',
-  },
-  {
-    collectionId: 'summer2020',
-    displayName: 'Summer 2020',
-  },
-];
+const categoriesEndpoint = 'https://5m6exoj3o7.execute-api.eu-west-1.amazonaws.com/prod/categories';
+const collectionsEndpoint =
+  'https://5m6exoj3o7.execute-api.eu-west-1.amazonaws.com/prod/collections';
 
 const Home = () => {
+  const categories = useSelector((state) => state.allCategories.categories);
+  const collections = useSelector((state) => state.allCollections.collections);
+  const dispatch = useDispatch();
+
+  const fetchCategories = async () => {
+    const res = await axios.get(categoriesEndpoint).catch((err) => {
+      console.log('Error: ', err);
+    });
+    dispatch(setCategories(res.data));
+  };
+
+  const fetchCollections = async () => {
+    const res = await axios.get(collectionsEndpoint).catch((err) => {
+      console.log('Error: ', err);
+    });
+    dispatch(setCollections(res.data));
+  };
+  useEffect(() => {
+    fetchCategories();
+    fetchCollections();
+  }, []);
   return (
     <Container
       sx={{
@@ -98,9 +78,9 @@ const Home = () => {
           Collections:
         </Typography>
         <Box sx={{ width: '100%', minWidth: 400, border: 'black 2px solid' }}>
-          <List>
+          <List sx={{ padding: '0' }}>
             {collections.map((collection) => (
-              <div key={collection.categoryId}>
+              <div key={collection.collectionId}>
                 <ListItem key={collection.collectionId} disablePadding>
                   <ListItemButton
                     sx={{ padding: '14px 28px' }}

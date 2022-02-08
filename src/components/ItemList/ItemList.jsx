@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { setProducts } from '../../actions/productActions';
+import Item from './Item';
+import { Container } from '@mui/material';
 /* import { selectedCollection } from '../../actions/collectionActions';
 import { selectedCategory } from '../../actions/categoryActions'; */
 const url = 'https://5m6exoj3o7.execute-api.eu-west-1.amazonaws.com/prod/items?';
@@ -32,7 +34,20 @@ const ItemList = () => {
   if (products.length === 0) {
     return <div>No Products</div>;
   } else {
-    return <div>{products[0].displayName}</div>;
+    return (
+      <Container
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { md: '1fr 1fr 1fr', sm: '1fr 1fr', xs: '1fr' },
+          gridGap: { md: '40px', sm: '20px', xs: '20px' },
+          marginTop: '50px',
+        }}
+      >
+        {products.map((product) => (
+          <Item key={product.itemId} product={product} />
+        ))}
+      </Container>
+    );
   }
 };
 

@@ -26,16 +26,16 @@ const NavBar = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar sx={{ backgroundColor: 'white' }} position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, mr: 2, display: { xs: 'none', md: 'flex' } }}
+            sx={{ color: 'black', flexGrow: 1, mr: 2, display: { xs: 'none', md: 'flex' } }}
           >
-            LOGO
+            Webshop
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -45,7 +45,7 @@ const NavBar = () => {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
+              sx={{ color: 'black' }}
             >
               <MenuIcon />
             </IconButton>
@@ -69,7 +69,9 @@ const NavBar = () => {
             >
               {pages.map((page) => (
                 <MenuItem key={page.route} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page.display}</Typography>
+                  <Typography sx={{ color: 'black' }} textAlign="center">
+                    {page.display}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -78,9 +80,9 @@ const NavBar = () => {
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+            sx={{ color: 'black', flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            LOGO
+            Webshop
           </Typography>
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -88,7 +90,7 @@ const NavBar = () => {
                 key={page.route}
                 href={'/' + page.route}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: 'black', display: 'block' }}
               >
                 {page.display}
                 {page.route === 'cart' && (

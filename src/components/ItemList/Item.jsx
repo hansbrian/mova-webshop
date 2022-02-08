@@ -1,10 +1,17 @@
 import React from 'react';
 import { Box, Card, CardActionArea, CardMedia, Typography, CardContent } from '@mui/material';
 
+import { Link } from 'react-router-dom';
+
 const Item = (props) => {
   const product = props.product;
+
   return (
-    <Card sx={{ justifySelf: 'strech' }}>
+    <Card
+      component={Link}
+      to={`/item/${product.itemId}`}
+      sx={{ justifySelf: 'strech', textDecoration: 'none' }}
+    >
       <CardActionArea>
         <CardMedia component="img" height="240" image={product.picture} alt={product.displayName} />
         <CardContent>

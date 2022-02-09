@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { selectedProduct, removeSelectedProduct } from '../../actions/productActions';
+import {
+  selectedProduct,
+  removeSelectedProduct,
+  addProductToCart,
+} from '../../actions/productActions';
 import axios from 'axios';
 import { Box, Button, Chip, Typography } from '@mui/material';
 import useStyles from './styles';
@@ -29,6 +33,10 @@ const ItemDetail = () => {
     dispatch(selectedProduct(res.data));
   };
 
+  const addToCart = (product) => {
+    dispatch(addProductToCart(product));
+  };
+
   useEffect(() => {
     if (itemId && itemId !== '') fetchProduct();
     return () => {
@@ -46,6 +54,7 @@ const ItemDetail = () => {
           flexDirection: { md: 'row', xs: 'column' },
           marginTop: '5px',
           margin: { xs: '5px 30px' },
+          justifyContent: 'center',
         }}
       >
         <img className={classes.img} src={product.picture} alt={product.displayName} />
@@ -81,7 +90,11 @@ const ItemDetail = () => {
               )}
               <Typography variant="h6">{product.currentPrice} €</Typography>
             </Box>
-            <Button sx={{ color: 'black', borderColor: 'black' }} variant="outlined">
+            <Button
+              onClick={() => addToCart(product)}
+              sx={{ color: 'black', borderColor: 'black' }}
+              variant="outlined"
+            >
               Add to Cart
             </Button>
           </Box>

@@ -1,7 +1,5 @@
-import './App.css';
-
-import { NavBar, Home, ItemList, ItemDetail, Cart } from './components';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { NavBar, Home, ItemList, ItemDetail, Cart } from "./components";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (

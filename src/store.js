@@ -1,12 +1,12 @@
-import { createStore } from 'redux';
-import allReducers from './reducers';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import { createStore } from "redux";
+import allReducers from "./reducers";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage: storage,
-  blacklist: ['allCategories', 'allCollections', 'allProducts', 'product'],
+  blacklist: ["allCategories", "allCollections", "allProducts", "product"],
 };
 
 const pReducer = persistReducer(persistConfig, allReducers);

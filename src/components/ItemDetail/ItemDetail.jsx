@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 import {
   selectedProduct,
   removeSelectedProduct,
   addProductToCart,
   removeProductFromCart,
-} from '../../actions/productActions';
-import axios from 'axios';
-import { Box, Button, Chip, Typography } from '@mui/material';
-import useStyles from './styles';
+} from "../../actions/productActions";
+import axios from "axios";
+import { Box, Button, Chip, Container, Typography } from "@mui/material";
+import useStyles from "./styles";
 
 const ItemDetail = () => {
   // Get product from state
@@ -32,11 +32,12 @@ const ItemDetail = () => {
   // Get Product info from server
   const fetchProduct = async () => {
     const res = await axios.get(endpoint).catch((err) => {
-      console.log('Error: ', err);
+      console.log("Error: ", err);
     });
     dispatch(selectedProduct(res.data));
   };
 
+  // function for adding product to Cart
   const addToCart = (product) => {
     dispatch(addProductToCart(product));
   };
@@ -47,23 +48,22 @@ const ItemDetail = () => {
   };
 
   useEffect(() => {
-    if (itemId && itemId !== '') fetchProduct();
+    if (itemId && itemId !== "") fetchProduct();
     return () => {
       dispatch(removeSelectedProduct());
     };
   }, [itemId]);
 
+  // Renders button depending if product is in cart
   let button;
-  console.log(cart);
-  console.log(product);
   if (cart.some((cartItem) => cartItem.itemId === product.itemId)) {
     button = (
       <Button
         onClick={() => removeFromCart(product)}
-        sx={{ color: '#bf5b54', borderColor: '#bf5b54' }}
+        sx={{ color: "#bf5b54", borderColor: "#bf5b54" }}
         variant="outlined"
       >
-        {' '}
+        {" "}
         Remove From Cart
       </Button>
     );
@@ -71,55 +71,59 @@ const ItemDetail = () => {
     button = (
       <Button
         onClick={() => addToCart(product)}
-        sx={{ color: 'black', borderColor: 'black' }}
+        sx={{ color: "black", borderColor: "black" }}
         variant="outlined"
       >
-        {' '}
+        {" "}
         Add to Cart
       </Button>
     );
   }
 
   if (Object.keys(product).length === 0) {
-    return <Typography variant="h3">No Product found </Typography>;
+    return (
+      <Container sx={{ padding: "20px" }}>
+        <Typography variant="h5">No Product found.</Typography>
+      </Container>
+    );
   } else {
     return (
       <Box
         sx={{
-          display: 'flex',
-          flexDirection: { md: 'row', xs: 'column' },
-          marginTop: '5px',
-          margin: { xs: '5px 30px' },
-          justifyContent: 'center',
+          display: "flex",
+          flexDirection: { md: "row", xs: "column" },
+          marginTop: "5px",
+          margin: { xs: "5px 30px" },
+          justifyContent: "center",
         }}
       >
         <img className={classes.img} src={product.picture} alt={product.displayName} />
         <Box
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            padding: '10px',
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: "10px",
           }}
         >
           <Typography variant="h3" gutterBottom>
             {product.displayName}
           </Typography>
           <Typography gutterBottom>{product.description}</Typography>
-          <Box sx={{ display: 'flex' }}>
-            <Typography sx={{ marginRight: '10px' }}>Avaliable Sizes: </Typography>
+          <Box sx={{ display: "flex" }}>
+            <Typography sx={{ marginRight: "10px" }}>Avaliable Sizes: </Typography>
             {product.availableSizes?.map((size) => (
               <Chip key={size} label={size} />
             ))}
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '15px' }}>
-            <Box sx={{ display: 'flex' }}>
-              <Typography sx={{ marginRight: '5px' }} variant="h6">
+          <Box sx={{ display: "flex", justifyContent: "space-between", marginTop: "15px" }}>
+            <Box sx={{ display: "flex" }}>
+              <Typography sx={{ marginRight: "5px" }} variant="h6">
                 {product.currentPrice} €
               </Typography>
               {product.originalPrice > product.currentPrice && (
                 <Typography
-                  sx={{ textDecoration: 'line-through', color: '#817f7f' }}
+                  sx={{ textDecoration: "line-through", color: "#817f7f" }}
                   gutterBottom
                   variant="h6"
                   component="div"

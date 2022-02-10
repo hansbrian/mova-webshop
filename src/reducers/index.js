@@ -1,25 +1,25 @@
-import { combineReducers } from 'redux';
-import { productReducer, selectedProductReducer } from './productReducer';
-import categoryReducer from './categoryReducer';
-import collectionReducer from './collectionReducer';
-import { addToCartReducer } from './cartReducer';
-import storage from 'redux-persist/lib/storage';
-import { persistReducer } from 'redux-persist';
+import { combineReducers } from "redux";
+import { productReducer, selectedProductReducer } from "./productReducer";
+import categoryReducer from "./categoryReducer";
+import collectionReducer from "./collectionReducer";
+import { addToCartReducer } from "./cartReducer";
+import storage from "redux-persist/lib/storage";
+import { persistReducer } from "redux-persist";
 
 const productsPersistConfig = {
-  key: 'allProducts',
+  key: "allProducts",
   storage: storage,
-  blacklist: ['products'],
+  blacklist: ["products"],
 };
 const categoriesPersistConfig = {
-  key: 'allCategories',
+  key: "allCategories",
   storage: storage,
-  blacklist: ['categories'],
+  blacklist: ["categories"],
 };
 const collectionsPersistConfig = {
-  key: 'allCollections',
+  key: "allCollections",
   storage: storage,
-  blacklist: ['collections'],
+  blacklist: ["collections"],
 };
 
 const allReducers = combineReducers({

@@ -25,3 +25,10 @@ export const addProductToCart = (product) => {
     payload: product,
   };
 };
+
+export const removeProductFromCart = (product) => {
+  return {
+    type: ActionTypes.REMOVE_PRODUCT_FROM_CART,
+    payload: product,
+  };
+};

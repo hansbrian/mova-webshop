@@ -5,6 +5,7 @@ import {
   selectedProduct,
   removeSelectedProduct,
   addProductToCart,
+  removeProductFromCart,
 } from '../../actions/productActions';
 import axios from 'axios';
 import { Box, Button, Chip, Typography } from '@mui/material';
@@ -13,6 +14,9 @@ import useStyles from './styles';
 const ItemDetail = () => {
   // Get product from state
   const product = useSelector((state) => state.product);
+
+  //Get Cart from state to check if product is in cart
+  const cart = useSelector((state) => state.cart.cart);
 
   // get CSS classes
   const classes = useStyles();
@@ -37,12 +41,44 @@ const ItemDetail = () => {
     dispatch(addProductToCart(product));
   };
 
+  // function for removing product from Cart
+  const removeFromCart = (product) => {
+    dispatch(removeProductFromCart(product));
+  };
+
   useEffect(() => {
     if (itemId && itemId !== '') fetchProduct();
     return () => {
       dispatch(removeSelectedProduct());
     };
   }, [itemId]);
+
+  let button;
+  console.log(cart);
+  console.log(product);
+  if (cart.some((cartItem) => cartItem.itemId === product.itemId)) {
+    button = (
+      <Button
+        onClick={() => removeFromCart(product)}
+        sx={{ color: '#bf5b54', borderColor: '#bf5b54' }}
+        variant="outlined"
+      >
+        {' '}
+        Remove From Cart
+      </Button>
+    );
+  } else {
+    button = (
+      <Button
+        onClick={() => addToCart(product)}
+        sx={{ color: 'black', borderColor: 'black' }}
+        variant="outlined"
+      >
+        {' '}
+        Add to Cart
+      </Button>
+    );
+  }
 
   if (Object.keys(product).length === 0) {
     return <Typography variant="h3">No Product found </Typography>;
@@ -78,9 +114,12 @@ const ItemDetail = () => {
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '15px' }}>
             <Box sx={{ display: 'flex' }}>
+              <Typography sx={{ marginRight: '5px' }} variant="h6">
+                {product.currentPrice} €
+              </Typography>
               {product.originalPrice > product.currentPrice && (
                 <Typography
-                  sx={{ textDecoration: 'line-through', color: '#817f7f', marginRight: '5px' }}
+                  sx={{ textDecoration: 'line-through', color: '#817f7f' }}
                   gutterBottom
                   variant="h6"
                   component="div"
@@ -88,15 +127,8 @@ const ItemDetail = () => {
                   {product.originalPrice} €
                 </Typography>
               )}
-              <Typography variant="h6">{product.currentPrice} €</Typography>
             </Box>
-            <Button
-              onClick={() => addToCart(product)}
-              sx={{ color: 'black', borderColor: 'black' }}
-              variant="outlined"
-            >
-              Add to Cart
-            </Button>
+            {button}
           </Box>
         </Box>
       </Box>

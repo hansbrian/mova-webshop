@@ -11,11 +11,15 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Badge from '@mui/material/Badge';
 import ShoppingCart from '@mui/icons-material/ShoppingCart';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const pages = [{ display: 'Cart', route: 'cart' }];
 
 const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  // get Cart from State
+  const cart = useSelector((state) => state.cart.cart);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -32,8 +36,15 @@ const NavBar = () => {
           <Typography
             variant="h6"
             noWrap
-            component="div"
-            sx={{ color: 'black', flexGrow: 1, mr: 2, display: { xs: 'none', md: 'flex' } }}
+            component={Link}
+            to="/"
+            sx={{
+              textDecoration: 'none',
+              color: 'black',
+              flexGrow: 1,
+              mr: 2,
+              display: { xs: 'none', md: 'flex' },
+            }}
           >
             Webshop
           </Typography>
@@ -68,7 +79,13 @@ const NavBar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page.route} onClick={handleCloseNavMenu}>
+                <MenuItem
+                  component={Link}
+                  xs={{ textDecoration: 'none' }}
+                  to={'/' + page.route}
+                  key={page.route}
+                  onClick={handleCloseNavMenu}
+                >
                   <Typography sx={{ color: 'black' }} textAlign="center">
                     {page.display}
                   </Typography>
@@ -77,10 +94,16 @@ const NavBar = () => {
             </Menu>
           </Box>
           <Typography
+            component={Link}
+            to="/"
             variant="h6"
             noWrap
-            component="div"
-            sx={{ color: 'black', flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+            sx={{
+              textDecoration: 'none',
+              color: 'black',
+              flexGrow: 1,
+              display: { xs: 'flex', md: 'none' },
+            }}
           >
             Webshop
           </Typography>
@@ -94,7 +117,7 @@ const NavBar = () => {
               >
                 {page.display}
                 {page.route === 'cart' && (
-                  <Badge badgeContent={2}>
+                  <Badge badgeContent={cart.length}>
                     <ShoppingCart />
                   </Badge>
                 )}
